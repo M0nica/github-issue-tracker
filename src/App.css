@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1b223c;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +35,34 @@
   to {
     transform: rotate(360deg);
   }
+}
+.issues {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.issueCard {
+  color: red;
+  flex: 1 1 100%;
+
+  margin: 1em;
+  background-color: #e7e7fd;
+  border-radius: 5px;
+}
+
+.repo-name {
+  color: #1b223c;
+  font-size: 0.6em;
+}
+a,
+a:visited {
+  color: #1b223c;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.priority-number {
+  color: purple;
 }
