@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-
+import { formatIssues } from "./formatIssues";
 import "./App.css";
 
+import { sortableContainer, sortableElement } from "react-sortable-hoc";
+import arrayMove from "array-move";
+
 const bearer_token = process.env.REACT_APP_BEARER_TOKEN || "";
-console.log("secret", bearer_token);
+
 var bearer = "Bearer " + bearer_token;
 
 const query = `
@@ -48,7 +51,7 @@ const opts = {
 class GitHubAPICall extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, repositories: null };
+    this.state = { loading: false, repositories: null, issues: [] };
   }
 
   handleSubmit = api => e => {
@@ -64,14 +67,29 @@ class GitHubAPICall extends Component {
       .then(({ data }) =>
         this.setState({
           repositories: data.viewer.repositories.nodes,
-          loading: false
+          loading: false,
+          issues: formatIssues(data.viewer.repositories.nodes)
         })
       )
       .catch(console.error);
   };
 
   render() {
-    const { loading, repositories } = this.state;
+    const { loading, repositories, issues } = this.state;
+
+    const SortableIssuesContainer = sortableContainer(({ children }) => (
+      <div className="gifs">{children}</div>
+    ));
+
+    const onSortEnd = ({ oldIndex, newIndex }) =>
+      this.setState({ issues: arrayMove(issues, oldIndex, newIndex) });
+
+    const SortableIssue = sortableElement(({ issue, index }) => (
+      <div className="issueCard">
+        <p className="issueName">{issue.node.title}</p>
+        <p className="repo-name">{issue.node.repository.name}</p>
+      </div>
+    ));
 
     return (
       <>
@@ -84,48 +102,23 @@ class GitHubAPICall extends Component {
               {loading ? "Loading..." : "Get GitHub Issues"}
             </button>
           )}{" "}
-          {!bearer_token && (
-            <p>Who are you?</p>
-            // (
-            //   <form onSubmit={this.handleSubmit}>
-            //     <label>
-            //       Name:
-            //       <input
-            //         type="text"
-            //         value={this.state.value}
-            //         onChange={this.handleChange}
-            //       />
-            //     </label>
-            //     <input type="submit" value="Submit" />
-            //   </form>
-            // )
-          )}
+          {!bearer_token && <p>Who are you?</p>}
         </p>
-        {bearer_token && (
-          <div className="issues">
-            {" "}
-            {repositories &&
-              repositories
-                .map(repo => repo.issues.edges)
-                .map(
-                  issues =>
-                    issues &&
-                    issues.map((issue, index) => (
-                      <div className="issueCard">
-                        <p className="priority-number">Priority #{index + 1}</p>{" "}
-                        <a href={issue.node.url}>
-                          {" "}
-                          <p className="issue-name">{issue.node.title} </p>
-                        </a>{" "}
-                        <p className="repo-name">
-                          {" "}
-                          from {issue.node.repository.name} repo
-                        </p>
-                      </div>
-                    ))
-                )}
-          </div>
-        )}
+        <div className="App">
+          <SortableIssuesContainer
+            axis="y"
+            onSortEnd={onSortEnd}
+            className="issues"
+          >
+            {issues.map((issue, index) => (
+              <SortableIssue
+                index={index}
+                key={issue.node.title}
+                issue={issue}
+              />
+            ))}
+          </SortableIssuesContainer>
+        </div>
       </>
     );
   }

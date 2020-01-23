@@ -36,23 +36,32 @@
     transform: rotate(360deg);
   }
 }
+.issueName {
+  padding: 1em;
+}
 .issues {
   display: flex;
   flex-wrap: wrap;
 }
 
 .issueCard {
-  color: red;
+  color: #1b223c;
   flex: 1 1 100%;
-
   margin: 1em;
-  background-color: #e7e7fd;
-  border-radius: 5px;
+  max-width: 300px;
+  background-color: #fff;
+
+  cursor: grab;
 }
 
 .repo-name {
-  color: #1b223c;
+  color: #fff;
   font-size: 0.6em;
+  background-color: #ae92ca;
+
+  width: 50%;
+
+  margin: 0 auto;
 }
 a,
 a:visited {
