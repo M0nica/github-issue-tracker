@@ -23,15 +23,17 @@
 .issues {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  width: 50%;
+  margin: 0 auto;
 }
 
 .issueCard {
   color: #1b223c;
+  max-width: 100%;
   flex: 1 1 100%;
   margin: 1em;
-  max-width: 300px;
   background-color: #fff;
-
   cursor: grab;
 }
 
@@ -39,11 +41,10 @@
   color: #fff;
   font-size: 0.6em;
   background-color: #ae92ca;
-
   width: 50%;
-
   margin: 0 auto;
 }
+
 a,
 a:visited {
   color: #1b223c;
@@ -51,8 +52,4 @@ a:visited {
 }
 a:hover {
   text-decoration: underline;
-}
-
-.priority-number {
-  color: purple;
 }

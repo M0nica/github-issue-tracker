@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import { formatIssues } from "./formatIssues";
 import "./App.css";
 
-import { sortableContainer, sortableElement } from "react-sortable-hoc";
-import arrayMove from "array-move";
-
-const bearer_token = process.env.REACT_APP_BEARER_TOKEN || "";
-
-var bearer = "Bearer " + bearer_token;
+import { SortableIssueContainer } from "./SortableIssueContainer";
 
 const query = `
   query{
@@ -42,82 +37,69 @@ const query = `
        
 `;
 const url = "https://api.github.com/graphql";
-const opts = {
-  method: "POST",
-  headers: { "Content-Type": "application/json", Authorization: bearer },
-  body: JSON.stringify({ query })
-};
 
-class GitHubAPICall extends Component {
+function getOptions(bearer_token) {
+  return {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${bearer_token}`
+    },
+    body: JSON.stringify({ query })
+  };
+}
+
+class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.state = { loading: false, repositories: null, issues: [] };
+    this.state = {
+      loading: false,
+      repositories: null,
+      issues: [],
+      bearer_token: ""
+    };
   }
 
-  handleSubmit = api => e => {
-    this.setState({ bearer_token: e.value });
-  };
+  handleInputChange = event => {
+    const bearer_token = event.target.value;
+    event.preventDefault();
 
-  handleClick = api => e => {
-    e.preventDefault();
-
-    this.setState({ loading: true });
-    fetch(url, opts)
+    fetch(url, getOptions(bearer_token))
       .then(res => res.json())
       .then(({ data }) =>
         this.setState({
           repositories: data.viewer.repositories.nodes,
           loading: false,
-          issues: formatIssues(data.viewer.repositories.nodes)
+          issues: formatIssues(data.viewer.repositories.nodes),
+          bearer_token
         })
       )
       .catch(console.error);
   };
 
   render() {
-    const { loading, repositories, issues } = this.state;
-
-    const SortableIssuesContainer = sortableContainer(({ children }) => (
-      <div className="gifs">{children}</div>
-    ));
-
-    const onSortEnd = ({ oldIndex, newIndex }) =>
-      this.setState({ issues: arrayMove(issues, oldIndex, newIndex) });
-
-    const SortableIssue = sortableElement(({ issue, index }) => (
-      <div className="issueCard">
-        <p className="issueName">{issue.node.title}</p>
-        <p className="repo-name">{issue.node.repository.name}</p>
-      </div>
-    ));
+    const { issues, bearer_token } = this.state;
+    const hasBearerToken = Boolean(bearer_token);
 
     return (
       <>
-        <p>
-          {bearer_token && !repositories && (
-            <button
-              onClick={this.handleClick("generate-lorem-ipsum")}
-              className="button"
-            >
-              {loading ? "Loading..." : "Get GitHub Issues"}
-            </button>
-          )}{" "}
-          {!bearer_token && <p>Who are you?</p>}
-        </p>
+        {!hasBearerToken && (
+          <>
+            <p>
+              Please enter your GitHub API Key below in order to view and sort
+              your GitHub issues. Note: only read-level access is required.
+            </p>
+            <input
+              type="text"
+              aria-label="input for Github API key"
+              placeholder=""
+              onChange={this.handleInputChange}
+            />
+          </>
+        )}
+
         <div className="App">
-          <SortableIssuesContainer
-            axis="y"
-            onSortEnd={onSortEnd}
-            className="issues"
-          >
-            {issues.map((issue, index) => (
-              <SortableIssue
-                index={index}
-                key={issue.node.title}
-                issue={issue}
-              />
-            ))}
-          </SortableIssuesContainer>
+          <SortableIssueContainer issues={issues} />
         </div>
       </>
     );
@@ -130,7 +112,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1>GitHub Issue Tracker</h1>
-          <GitHubAPICall />
+          <HomePage />
         </header>
       </div>
     );

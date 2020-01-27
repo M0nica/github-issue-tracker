@@ -1,6 +1,6 @@
 # GitHub Issue Tracker
 
-This appliction allows users to re-order their GitHub issues in the UI.
+This application allows users to re-order their GitHub issues in the UI.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
