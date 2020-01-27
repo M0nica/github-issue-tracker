@@ -1,6 +1,6 @@
-.App {
+/* .App {
   text-align: center;
-}
+} */
 
 .App-header {
   background-color: #1b223c;
@@ -9,22 +9,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  /* text-align: center; */
+  /* font-size: calc(10px + 2vmin); */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-.issueName {
-  padding: 1em;
-}
 .issues {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 50%;
+  max-width: 400px;
   margin: 0 auto;
 }
 
@@ -35,13 +29,17 @@
   margin: 1em;
   background-color: #fff;
   cursor: grab;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
 }
 
 .repo-name {
   color: #fff;
-  font-size: 0.6em;
+  font-size: 0.8em;
   background-color: #ae92ca;
-  width: 50%;
   margin: 0 auto;
 }
 
@@ -52,4 +50,28 @@ a:visited {
 }
 a:hover {
   text-decoration: underline;
+}
+
+.avatar {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.timestamp {
+  color: #4e5055;
+  font-size: 10px;
+  margin-top: 2em;
+}
+
+.avatarContainer {
+  flex-basis: 30%;
+  flex-grow: 0;
+  padding: 1em;
+  text-align: center;
+}
+
+.metaData {
+  flex-basis: 70%;
+  flex-grow: 0;
+  padding: 1em;
 }

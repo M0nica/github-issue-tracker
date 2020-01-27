@@ -5,27 +5,34 @@ import "./App.css";
 import { SortableIssueContainer } from "./SortableIssueContainer";
 
 const query = `
-  query{
+  query {
   viewer {
     repositories(last: 50) {
       totalCount
       nodes {
-      
         name
-        issues(states: [OPEN], last: 10) {
-            edges {
-              node {
-                createdAt
-                title
-                url
-                repository {
-                  name
+        issues(states: [OPEN, CLOSED], last: 10) {
+          edges {
+            node {
+              createdAt
+              lastEditedAt
+              title
+              url
+              repository {
+                name
+              }
+              assignees(first: 2) {
+                edges {
+                  node {
+                    id
+                    name
+                    avatarUrl
+                  }
                 }
               }
             }
           }
-       
-        
+        }
       }
       pageInfo {
         endCursor
@@ -49,15 +56,27 @@ function getOptions(bearer_token) {
   };
 }
 
-class HomePage extends Component {
+export class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
       loading: false,
       repositories: null,
       issues: [],
-      bearer_token: ""
+      bearer_token: "" //process.env.REACT_APP_BEARER_TOKEN //|| ""
     };
+
+    // fetch(url, getOptions(process.env.REACT_APP_BEARER_TOKEN))
+    //   .then(res => res.json())
+    //   .then(({ data }) =>
+    //     this.setState({
+    //       repositories: data.viewer.repositories.nodes,
+    //       loading: false,
+    //       issues: formatIssues(data.viewer.repositories.nodes),
+    //       bearer_token: process.env.REACT_APP_BEARER_TOKEN
+    //     })
+    //   )
+    //   .catch(console.error);
   }
 
   handleInputChange = event => {
@@ -99,6 +118,23 @@ class HomePage extends Component {
         )}
 
         <div className="App">
+          <div className="repositories">
+            {issues.length > 0 && (
+              <>
+                {" "}
+                <h2>Repositories</h2>
+                {issues
+                  .reduce((unique, issue) => {
+                    return unique.includes(issue.node.repository.name)
+                      ? unique
+                      : [...unique, issue.node.repository.name];
+                  }, [])
+                  .map(issue => (
+                    <div>{issue}</div>
+                  ))}
+              </>
+            )}
+          </div>
           <SortableIssueContainer issues={issues} />
         </div>
       </>
