@@ -2,31 +2,24 @@
 
 This application allows users to re-order their GitHub issues in the UI.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Current Functionality
+- Allows users to view their GitHub issues after providing their GitHub API Key
+- Allows users to re-order their GitHub issues in UI
+- Allows users to filter by repository when viewing issues
 
-## Available Scripts
+## Future Functionality to Implement 
+- [ ] Increase test coverage
+	- [ ] i.e., mock fetch
+- [ ] Modularize code more into more composable files 
+- [ ] Add server-side rendering 
+- [ ] Create proper authorization flow that doesn’t require user providing their API Key in plain text
 
-In the project directory, you can run:
 
-### `yarn start`
+## Instructions for Developing 
+1. Install dependencies in the root with `yarn` .
+2. Run development version of app locally at http://localhost:3000 with `yarn start`
+3. Run `yarn test` to run unit tests 
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Instructions for Deploying 
+- Run `yarn build` in order to create a production version of the application in the `/build` directory.
+ 
