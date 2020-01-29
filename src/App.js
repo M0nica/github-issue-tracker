@@ -77,7 +77,8 @@ export class HomePage extends Component {
       issues: localIssues || [],
       sortedIssues: sortedIssues || [],
       selectedRepo: localSelectedRepos || "",
-      bearer_token: ""
+      bearer_token: "",
+      error: []
     };
   }
 
@@ -101,11 +102,11 @@ export class HomePage extends Component {
         this.setState({
           repositories: data.viewer.repositories.nodes || [],
           loading: false,
-          issues: formatIssues(data.viewer.repositories.nodes) || [],
+          issues: formatIssues(data.viewer.repositories.nodes || []),
           bearer_token
         })
       )
-      .catch(console.error);
+      .catch(error => this.setState({ error: error }));
 
     setLocalIssues(this.state.issues);
     setLocalRepositories(this.state.repositories);
@@ -131,7 +132,13 @@ export class HomePage extends Component {
   };
 
   render() {
-    const { issues, bearer_token, selectedRepo, sortedIssues } = this.state;
+    const {
+      issues,
+      bearer_token,
+      selectedRepo,
+      sortedIssues,
+      error
+    } = this.state;
     const hasBearerToken = Boolean(bearer_token);
     const hasSortedIssues = Boolean(issues.length > 0);
     const showAuthScreen = !hasBearerToken && !hasSortedIssues;
@@ -139,8 +146,9 @@ export class HomePage extends Component {
     return (
       <>
         <div className="App">
-          {showAuthScreen && (
+          {(showAuthScreen || error.length > 0) && (
             <div className="authScreen">
+              <h1>GitHub Issue Tracker</h1>
               <p>
                 Please enter your GitHub API Key below in order to view and sort
                 your GitHub issues. Note: only read-level access is required.
@@ -151,13 +159,17 @@ export class HomePage extends Component {
                 placeholder=""
                 onChange={this.handleInputChange}
               />
+              {error.length > 0 && (
+                <p>
+                  Something went wrong. Please try with a different API key.
+                </p>
+              )}
             </div>
           )}
 
           {hasBearerToken && issues.length === 0 && (
             <p>Sorry no issues were found for that key</p>
           )}
-
           {(issues || sortedIssues).length > 0 && (
             <div className="repositoriesColumn">
               {" "}
@@ -189,7 +201,6 @@ export class HomePage extends Component {
               )}
             </div>
           )}
-
           {issues.length > 0 && (
             <div className="issuesColumn">
               <h2>
