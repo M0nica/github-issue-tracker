@@ -1,6 +1,28 @@
-/* .App {
+.page {
+  background-color: #1b223c;
+  min-height: 100vh;
   text-align: center;
-} */
+  color: white;
+  align-content: center;
+}
+.App {
+  display: flex;
+  background-color: #1b223c;
+
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .App {
+    flex-direction: column;
+  }
+}
+
+header {
+  /* background-color: #1b223c; */
+  min-height: 100vh;
+  color: white;
+}
 
 .App-header {
   background-color: #1b223c;
@@ -9,8 +31,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* text-align: center; */
-  /* font-size: calc(10px + 2vmin); */
   color: white;
 }
 

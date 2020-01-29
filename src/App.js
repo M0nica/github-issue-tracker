@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { formatIssues } from "./formatIssues";
 import "./App.css";
+import arrayMove from "array-move";
 
 import { SortableIssueContainer } from "./SortableIssueContainer";
 
@@ -59,11 +60,24 @@ function getOptions(bearer_token) {
 export class HomePage extends Component {
   constructor(props) {
     super(props);
+    const localIssues =
+      typeof window !== undefined &&
+      JSON.parse(window.localStorage.getItem("issues"));
+
+    const localSelectedRepos =
+      typeof window !== undefined &&
+      JSON.parse(window.localStorage.getItem("selectedRepo"));
+
+    const localRepos =
+      typeof window !== undefined &&
+      JSON.parse(window.localStorage.getItem("repositories"));
+
     this.state = {
       loading: false,
-      repositories: null,
-      issues: [],
-      bearer_token: "" //process.env.REACT_APP_BEARER_TOKEN //|| ""
+      repositories: localRepos || null,
+      issues: localIssues || [],
+      selectedRepo: localSelectedRepos || "",
+      bearer_token: ""
     };
 
     // fetch(url, getOptions(process.env.REACT_APP_BEARER_TOKEN))
@@ -78,6 +92,13 @@ export class HomePage extends Component {
     //   )
     //   .catch(console.error);
   }
+
+  handleClick = repo => {
+    if (this.state.selectedRepo !== repo) {
+      this.setState({ selectedRepo: repo });
+      window.localStorage.setItem("repo", JSON.stringify(repo));
+    }
+  };
 
   handleInputChange = event => {
     const bearer_token = event.target.value;
@@ -94,48 +115,98 @@ export class HomePage extends Component {
         })
       )
       .catch(console.error);
+
+    window.localStorage.setItem("issues", JSON.stringify(this.state.issues));
+    window.localStorage.setItem(
+      "repositories",
+      JSON.stringify(this.state.repositories)
+    );
+  };
+
+  onSortEnd = ({ oldIndex, newIndex }) => {
+    this.setState(({ issues }) => ({
+      issues: arrayMove(
+        this.state.selectedRepo
+          ? issues.filter(issue => {
+              return issue.node.repository.name === this.state.selectedRepo;
+            })
+          : issues,
+        oldIndex,
+        newIndex
+      )
+    }));
+    window.localStorage.setItem("issues", JSON.stringify(this.state.issues));
   };
 
   render() {
-    const { issues, bearer_token } = this.state;
+    const { issues, bearer_token, selectedRepo } = this.state;
     const hasBearerToken = Boolean(bearer_token);
+    const hasIssues = Boolean(issues.length > 0);
+    const showAuthScreen = !hasBearerToken && !hasIssues;
+
+    console.log("STATE", JSON.stringify(this.state));
+    console.log("LOCAL STORAGE", JSON.stringify(window.localStorage));
 
     return (
       <>
-        {!hasBearerToken && (
-          <>
-            <p>
-              Please enter your GitHub API Key below in order to view and sort
-              your GitHub issues. Note: only read-level access is required.
-            </p>
-            <input
-              type="text"
-              aria-label="input for Github API key"
-              placeholder=""
-              onChange={this.handleInputChange}
-            />
-          </>
-        )}
-
         <div className="App">
-          <div className="repositories">
-            {issues.length > 0 && (
-              <>
-                {" "}
-                <h2>Repositories</h2>
-                {issues
-                  .reduce((unique, issue) => {
-                    return unique.includes(issue.node.repository.name)
-                      ? unique
-                      : [...unique, issue.node.repository.name];
-                  }, [])
-                  .map(issue => (
-                    <div>{issue}</div>
-                  ))}
-              </>
-            )}
-          </div>
-          <SortableIssueContainer issues={issues} />
+          {showAuthScreen && (
+            <div className="authScreen">
+              <p>
+                Please enter your GitHub API Key below in order to view and sort
+                your GitHub issues. Note: only read-level access is required.
+              </p>
+              <input
+                type="text"
+                aria-label="input for Github API key"
+                placeholder=""
+                onChange={this.handleInputChange}
+              />
+            </div>
+          )}
+
+          {issues.length > 0 && (
+            <div className="repositoriesColumn">
+              {" "}
+              <h1>GitHub Issue Tracker</h1>
+              <h2>Filter By Repository</h2>
+              {console.log("issues", { issues })}
+              {issues
+                .reduce((unique, issue) => {
+                  return unique.includes(issue.node.repository.name)
+                    ? unique
+                    : [...unique, issue.node.repository.name];
+                }, [])
+                .map((repo, index) => (
+                  <div onClick={() => this.handleClick(repo)} key={index}>
+                    {repo}
+                  </div>
+                ))}
+              {selectedRepo !== "" && (
+                <div onClick={() => this.handleClick("")}>view all</div>
+              )}
+            </div>
+          )}
+
+          {issues.length > 0 && (
+            <div className="issuesColumn">
+              <h2>
+                {selectedRepo
+                  ? `Viewing issues for ${selectedRepo}`
+                  : "Viewing all issues"}
+              </h2>
+              <SortableIssueContainer
+                onSortEnd={this.onSortEnd}
+                issues={
+                  selectedRepo
+                    ? issues.filter(issue => {
+                        return issue.node.repository.name === selectedRepo;
+                      })
+                    : issues
+                }
+              />
+            </div>
+          )}
         </div>
       </>
     );
@@ -146,10 +217,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1>GitHub Issue Tracker</h1>
-          <HomePage />
-        </header>
+        <HomePage />
       </div>
     );
   }
