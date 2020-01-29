@@ -1,6 +1,13 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/51d3788c-ed84-428b-a0f8-1903e12619f9/deploy-status)](https://app.netlify.com/sites/github-issue-tracker-mvp/deploys)
+
 # GitHub Issue Tracker
 
 This application allows users to re-order their GitHub issues in the UI.
+
+<img src="public/Screen%20Shot%202020-01-29%20at%206.34.53%20PM.png" width="400" alt="screenshot of application">
+ 
+   
+View app online at: https://github-issue-tracker-mvp.netlify.com/
 
 ## Current Functionality
 
@@ -17,8 +24,14 @@ This application allows users to re-order their GitHub issues in the UI.
 - [ ] Modularize code more into more composable files
 - [ ] Add server-side rendering to improve SEO and have better performance
 - [ ] Create proper authorization flow that doesn’t require user providing their API Key in plain text
-- [ ] Fix bug 🐛 that sometimes doesn't allow issues to be re-ordered when in filtered view
+- [ ] Fix bug 🐛 that doesn't allow issues to be re-ordered when in filtered view
 - [ ] Improve error handling when provided with an invalid GitHub API key
+- [ ] Add Footer
+- [ ] Paginate through GitHub issues and repos in order to display more issues
+- [ ] Allow option in UI to filter by type of issue (open, closed, etc.)
+- [ ] Allow option in UI to filter by assignee
+- [ ] Allow option in UI to assign a user to an issue
+- [ ] Allow option in UI to sort by newest or oldest issues
 
 ## Instructions for Developing
 
