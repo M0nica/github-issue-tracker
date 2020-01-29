@@ -2,6 +2,9 @@
 
 This application allows users to re-order their GitHub issues in the UI.
 
+<img src="public/Screen%20Shot%202020-01-29%20at%206.34.53%20PM.png" width="400" alt="screenshot of application">
+   
+
 ## Current Functionality
 
 - Allows users to view their GitHub issues after providing their GitHub API Key
@@ -18,6 +21,7 @@ This application allows users to re-order their GitHub issues in the UI.
 - [ ] Add server-side rendering to improve SEO and have better performance
 - [ ] Create proper authorization flow that doesn’t require user providing their API Key in plain text
 - [ ] Fix bug 🐛 that doesn't allow issues to be re-ordered when in filtered view
+- [ ] Add Footer
 
 ## Instructions for Developing
 
