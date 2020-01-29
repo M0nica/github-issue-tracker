@@ -64,6 +64,10 @@ export class HomePage extends Component {
       typeof window !== undefined &&
       JSON.parse(window.localStorage.getItem("issues"));
 
+    const sortedIssues =
+      typeof window !== undefined &&
+      JSON.parse(window.localStorage.getItem("sortedIssues"));
+
     const localSelectedRepos =
       typeof window !== undefined &&
       JSON.parse(window.localStorage.getItem("selectedRepo"));
@@ -76,21 +80,10 @@ export class HomePage extends Component {
       loading: false,
       repositories: localRepos || null,
       issues: localIssues || [],
+      sortedIssues: sortedIssues || [],
       selectedRepo: localSelectedRepos || "",
       bearer_token: ""
     };
-
-    // fetch(url, getOptions(process.env.REACT_APP_BEARER_TOKEN))
-    //   .then(res => res.json())
-    //   .then(({ data }) =>
-    //     this.setState({
-    //       repositories: data.viewer.repositories.nodes,
-    //       loading: false,
-    //       issues: formatIssues(data.viewer.repositories.nodes),
-    //       bearer_token: process.env.REACT_APP_BEARER_TOKEN
-    //     })
-    //   )
-    //   .catch(console.error);
   }
 
   handleClick = repo => {
@@ -124,6 +117,7 @@ export class HomePage extends Component {
   };
 
   onSortEnd = ({ oldIndex, newIndex }) => {
+    window.localStorage.setItem("issues", JSON.stringify(this.state.issues));
     this.setState(({ issues }) => ({
       issues: arrayMove(
         this.state.selectedRepo
@@ -135,18 +129,20 @@ export class HomePage extends Component {
         newIndex
       )
     }));
-    window.localStorage.setItem("issues", JSON.stringify(this.state.issues));
+
+    window.localStorage.setItem(
+      "sortedIssues",
+      JSON.stringify(this.state.sortedIssues)
+    );
   };
 
   render() {
-    const { issues, bearer_token, selectedRepo } = this.state;
+    const { issues, bearer_token, selectedRepo, sortedIssues } = this.state;
     const hasBearerToken = Boolean(bearer_token);
-    const hasIssues = Boolean(issues.length > 0);
-    const showAuthScreen = !hasBearerToken && !hasIssues;
+    const hasSortedIssues = Boolean(issues.length > 0);
+    const showAuthScreen = !hasBearerToken && !hasSortedIssues;
 
-    console.log("STATE", JSON.stringify(this.state));
-    console.log("LOCAL STORAGE", JSON.stringify(window.localStorage));
-
+  
     return (
       <>
         <div className="App">
@@ -165,12 +161,12 @@ export class HomePage extends Component {
             </div>
           )}
 
-          {issues.length > 0 && (
+          {(issues || sortedIssues).length > 0 && (
             <div className="repositoriesColumn">
               {" "}
               <h1>GitHub Issue Tracker</h1>
               <h2>Filter By Repository</h2>
-              {console.log("issues", { issues })}
+
               {issues
                 .reduce((unique, issue) => {
                   return unique.includes(issue.node.repository.name)
