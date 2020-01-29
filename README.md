@@ -1,9 +1,14 @@
-# GitHub Issue Tracker
+[![Netlify Status](https://api.netlify.com/api/v1/badges/51d3788c-ed84-428b-a0f8-1903e12619f9/deploy-status)](https://app.netlify.com/sites/github-issue-tracker-mvp/deploys)
+ 
+ # GitHub Issue Tracker
+
 
 This application allows users to re-order their GitHub issues in the UI.
 
 <img src="public/Screen%20Shot%202020-01-29%20at%206.34.53%20PM.png" width="400" alt="screenshot of application">
+ 
    
+View app online at: https://github-issue-tracker-mvp.netlify.com/ 
 
 ## Current Functionality
 
