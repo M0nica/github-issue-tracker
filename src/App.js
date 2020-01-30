@@ -176,6 +176,14 @@ export class HomePage extends Component {
               {" "}
               <h1>GitHub Issue Tracker</h1>
               <h2>Filter By Repository</h2>
+              {selectedRepo !== "" && (
+                <div
+                  onClick={() => this.handleClick("")}
+                  className="repo-label"
+                >
+                  view all
+                </div>
+              )}
               {issues
                 .reduce((unique, issue) => {
                   console.log("ISSUES", issue);
@@ -192,14 +200,6 @@ export class HomePage extends Component {
                     {repo}
                   </div>
                 ))}
-              {selectedRepo !== "" && (
-                <div
-                  onClick={() => this.handleClick("")}
-                  className="repo-label"
-                >
-                  view all
-                </div>
-              )}
             </div>
           )}
           {issues.length > 0 && (

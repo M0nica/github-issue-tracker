@@ -33,6 +33,8 @@ View app online at: https://github-issue-tracker-mvp.netlify.com/
 - [ ] Allow option in UI to assign a user to an issue
 - [ ] Allow option in UI to sort by newest or oldest issues
 - [ ] Make repository column sticky when the issues column is longer
+- [ ] Indicate in repository column which repository is selected
+- [ ] Allow multiple repositories to be selected (without viewing all issues)
 
 ## Instructions for Developing
 
