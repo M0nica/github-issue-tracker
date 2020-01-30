@@ -20,8 +20,8 @@ View app online at: https://github-issue-tracker-mvp.netlify.com/
 
 - [ ] Increase test coverage
   - [ ] i.e., mock fetch
-- [ ] Make application look prettier 💅
-- [ ] Modularize code more into more composable files
+- [ ] Make application look prettier and use Styled Components 💅
+- [ ] Modularize code more into more composable files (JS and CSS)
 - [ ] Add server-side rendering to improve SEO and have better performance
 - [ ] Create proper authorization flow that doesn’t require user providing their API Key in plain text
 - [ ] Fix bug 🐛 that doesn't allow issues to be re-ordered when in filtered view
