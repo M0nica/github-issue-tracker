@@ -149,6 +149,7 @@ export class HomePage extends Component {
           {(showAuthScreen || error.length > 0) && (
             <div className="authScreen">
               <h1>GitHub Issue Tracker</h1>
+
               <p>
                 Please enter your GitHub API Key below in order to view and sort
                 your GitHub issues. Note: only read-level access is required.
@@ -231,6 +232,13 @@ class App extends Component {
     return (
       <div className="page">
         <HomePage />
+        <br />
+        <a
+          className="githubLink"
+          href="https://github.com/M0nica/github-issue-tracker/"
+        >
+          view source on GitHub
+        </a>
       </div>
     );
   }

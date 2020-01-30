@@ -4,7 +4,7 @@
 
 This application allows users to re-order their GitHub issues in the UI.
 
-<img src="public/Screen%20Shot%202020-01-29%20at%206.34.53%20PM.png" width="400" alt="screenshot of application">
+<img src="public/application-screenshot.png" width="400" alt="screenshot of application">
  
    
 View app online at: https://github-issue-tracker-mvp.netlify.com/
@@ -32,6 +32,7 @@ View app online at: https://github-issue-tracker-mvp.netlify.com/
 - [ ] Allow option in UI to filter by assignee
 - [ ] Allow option in UI to assign a user to an issue
 - [ ] Allow option in UI to sort by newest or oldest issues
+- [ ] Make repository column sticky when the issues column is longer
 
 ## Instructions for Developing
 

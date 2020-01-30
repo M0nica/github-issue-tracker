@@ -5,10 +5,10 @@ body {
 }
 
 .page {
-  background-color: #1b223c;
+  color: #2e0f4e;
   min-height: 100vh;
   text-align: center;
-  color: white;
+  background-color: #fdfcff;
   align-content: center;
   height: "100vh";
   min-height: "100vh";
@@ -16,9 +16,9 @@ body {
 
 .App {
   display: flex;
-  background-color: #1b223c;
+  color: #2e0f4e;
   justify-content: space-around;
-  color: white;
+  background-color: #fdfcff;
 }
 
 @media (max-width: 600px) {
@@ -33,14 +33,15 @@ body {
   justify-content: center;
   max-width: 400px;
   margin: 0 auto;
+  background-color: #e0e0e0;
 }
 
 .issueCard {
-  color: #1b223c;
+  color: #2e0f4e;
   max-width: 100%;
   flex: 1 1 100%;
   margin: 1em;
-  background-color: #fff;
+  background-color: #fdfcff;
   cursor: grab;
   display: flex;
   flex-direction: row-reverse;
@@ -50,7 +51,7 @@ body {
 }
 
 .repo-name {
-  color: #fff;
+  color: #fdfcff;
   font-size: 0.8em;
   background-color: #ae92ca;
   margin: 0 auto;
@@ -60,18 +61,28 @@ body {
 
 .repo-label {
   padding: 1em;
+
+  margin: 1em;
+  background-color: #ae92ca;
+  border-radius: 5px;
 }
+
 .repo-label:hover {
-  background-color: #af92ca;
+  background-color: #6b5582;
+  color: #fdfcff;
 }
 
 a,
 a:visited {
-  color: #1b223c;
+  color: #2e0f4e;
   text-decoration: none;
 }
 
 a:hover {
+  text-decoration: underline;
+}
+
+a.githubLink {
   text-decoration: underline;
 }
 
