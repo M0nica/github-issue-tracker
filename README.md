@@ -25,6 +25,7 @@ View app online at: https://github-issue-tracker-mvp.netlify.com/
 - [ ] Add server-side rendering to improve SEO and have better performance
 - [ ] Create proper authorization flow that doesn’t require user providing their API Key in plain text
 - [ ] Fix bug 🐛 that doesn't allow issues to be re-ordered when in filtered view
+- [ ] Only display repositories on load and then load issues once a repository is selected
 - [ ] Improve error handling when provided with an invalid GitHub API key or rate-limited
 - [ ] Add Footer
 - [ ] Paginate through GitHub issues and repos in order to display more issues. Currently the app requests and displays. the last 100 OPEN issues for the last 100 repositories for a given user.
